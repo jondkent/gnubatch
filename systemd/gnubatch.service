@@ -1,0 +1,10 @@
+[Unit]
+Description=gnubatch advanced batch scheduling system 
+
+[Service]
+Type=forking
+EnvironmentFile=-/etc/sysconfig/gnubatch
+ExecStart=/usr/bin/gbch-start -j 200 -v 500
+
+[Install]
+WantedBy=multi-user.target
