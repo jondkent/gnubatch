@@ -1,0 +1,8 @@
+Hmm, had some problems with libtool and configure oon FC20, this fixes it:
+
+aclocal  
+libtoolize --force  
+autoheader  
+autoconf 
+
+
