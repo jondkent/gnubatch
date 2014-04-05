@@ -54,7 +54,7 @@ cp -p doc/poddoc/man/*.3 %{buildroot}/%{_mandir}/man3/
 cp -p doc/poddoc/man/*.5 %{buildroot}/%{_mandir}/man5/
 cp -p doc/poddoc/man/*.1 %{buildroot}/%{_mandir}/man1/
 cp -rp build/lib/.libs/libgnu* %{buildroot}/%{_libdir}
-cp -p LICENSE %{buildroot}%{_defaultdocdir}/%{name}}/
+cp -p LICENSE %{buildroot}%{_defaultdocdir}/%{name}/
 cp -p README %{buildroot}%{_defaultdocdir}/%{name}/
 cp -p build/helpmsg/*help %{buildroot}/usr/share/%{name}/help
 cp -p build/helpmsg/btint-config %{buildroot}/usr/share/%{name}/help
