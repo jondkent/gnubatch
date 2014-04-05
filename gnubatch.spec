@@ -7,7 +7,7 @@ Group: System Environment/Daemons
 License: GPLv3
 URL: http://www.gnu.org/software/gnubatch/
 Source0: http://ftp.gnu.org/gnu/gnubatch/gnubatch-1.10.tar.gz
-Source1: gnubatch.service
+Source1: gnubatch-systemd.tar.gz
 BuildRoot: %(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
 
 BuildRequires: systemd
@@ -60,7 +60,7 @@ cp -p README %{buildroot}%{_defaultdocdir}/%{name}/
 cp -p build/helpmsg/*help %{buildroot}/usr/share/%{name}/help
 cp -p build/helpmsg/btint-config %{buildroot}/usr/share/%{name}/help
 cp -p gnubatch.conf %{buildroot}/etc/sysconfig
-cp -p gnubatch.service %{buildroot}/%{_unitdir}
+cp -p lib/systemd/system/gnubatch.service %{buildroot}/%{_unitdir}
 
 %clean
 rm -rf %{buildroot}
