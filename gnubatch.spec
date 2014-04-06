@@ -1,25 +1,24 @@
 Name: gnubatch
 Version: 1.10
-Release: 6%{?dist}
+Release: 1%{?dist}
 Summary: gnubatch provides enhanced job control
 
 Group: System Environment/Daemons
 License: GPLv3
 URL: http://www.gnu.org/software/gnubatch/
 Source0: http://ftp.gnu.org/gnu/gnubatch/gnubatch-1.10.tar.gz
-Source1: gnubatch-systemd.tar.gz
+Source1: https://github.com/jondkent/gnubatch/blob/master/gnubatch-systemd.tar.gz
 BuildRoot: %(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
 
 BuildRequires: systemd
 
 %description
-The intention is to provide a comprehensive batch scheduling system
+gnubatch provides a comprehensive batch scheduling system
 for UNIX systems and GNU/Linux with transparently shared jobs and
 job control variables across the network.
 
 The first version of the product was written in 1990 and it has been
-added to and refined ever since. However please read TODO regarding
-future ideas for the product.
+added to and refined ever since.
 
 This has been edited so as to talk about GNUbatch rather than Xi-Batch
 and names suitably changed. It should be able to talk to other
