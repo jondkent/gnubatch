@@ -5,4 +5,4 @@ libtoolize --force
 autoheader  
 autoconf 
 
-
+yum install ncurses-devel, libtool, bison, flex and flex-devel

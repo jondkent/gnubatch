@@ -1,6 +1,6 @@
 Name: gnubatch
 Version: 1.10
-Release: 1%{?dist}
+Release: 2%{?dist}
 Summary: gnubatch provides enhanced job control
 
 Group: System Environment/Daemons
@@ -10,7 +10,7 @@ Source0: http://ftp.gnu.org/gnu/gnubatch/gnubatch-1.10.tar.gz
 Source1: https://github.com/jondkent/gnubatch/blob/master/gnubatch-systemd.tar.gz
 BuildRoot: %(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
 
-BuildRequires: systemd
+BuildRequires: systemd ncurses-devel libtool bison flex flex-devel
 
 %description
 gnubatch provides a comprehensive batch scheduling system
@@ -123,5 +123,7 @@ cat /etc/services | awk '
 
 
 %changelog
+* Sat Apr 12 2014 Jon Kent <jon.kent at, gmail.com> 1.10-2
+- added buildrequires for ncurses-devel, libtool, bison, flex and flex-devel
 * Fri Apr 04 2014 Jon Kent <jon.kent at, gmail.com> 1.10-1
 - initial fedora release
