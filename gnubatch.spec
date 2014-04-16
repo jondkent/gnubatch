@@ -43,22 +43,22 @@ mkdir -p %{buildroot}%{_mandir}/man1/
 mkdir -p %{buildroot}%{_mandir}/man5/
 mkdir -p %{buildroot}/%{_unitdir}
 mkdir -p %{buildroot}%doc
-mkdir -p %{buildroot}%{_datadir}%{name}/help
+mkdir -p %{buildroot}%{_datadir}/%{name}/help
 mkdir -p %{buildroot}%{_sysconfdir}/sysconfig
 mkdir -p %{buildroot}/var/gnubatch
 
-install -pm$(755) build/.libs/* %{buildroot}/%{_bindir}
-install -pm$(644) doc/poddoc/man/*.8 %{buildroot}/%{_mandir}/man8/
-install -pm$(644) doc/poddoc/man/*.3 %{buildroot}/%{_mandir}/man3/
-install -pm$(644) doc/poddoc/man/*.5 %{buildroot}/%{_mandir}/man5/
-install -pm$(644) doc/poddoc/man/*.1 %{buildroot}/%{_mandir}/man1/
-install -pm$(755) build/lib/.libs/libgnu* %{buildroot}/%{_libdir}
-install -pm(644) LICENSE %doc
-install -pm(644) README %doc
-install -pm(644) build/helpmsg/*help %{buildroot}%{_datadir}%{name}/help
-install -pm(644) build/helpmsg/btint-config %{buildroot}%{_datadir}%{name}/help
-install -pm(644) gnubatch.conf %{buildroot}%_sysconfdir}/sysconfig
-install -pm(644) lib/systemd/system/gnubatch.service %{buildroot}/%{_unitdir}
+install -p build/.libs/* %{buildroot}/%{_bindir}
+install -p doc/poddoc/man/*.8 %{buildroot}/%{_mandir}/man8/
+install -p doc/poddoc/man/*.3 %{buildroot}/%{_mandir}/man3/
+install -p doc/poddoc/man/*.5 %{buildroot}/%{_mandir}/man5/
+install -p doc/poddoc/man/*.1 %{buildroot}/%{_mandir}/man1/
+install -p build/lib/.libs/libgnu* %{buildroot}/%{_libdir}
+install -p LICENSE %doc
+install -p README %doc
+install -p build/helpmsg/*help %{buildroot}%{_datadir}/%{name}/help
+install -p build/helpmsg/btint-config %{buildroot}%{_datadir}/%{name}/help
+install -p gnubatch.conf %{buildroot}%{_sysconfdir}/sysconfig
+install -p lib/systemd/system/gnubatch.service %{buildroot}/%{_unitdir}
 
 %post
 
