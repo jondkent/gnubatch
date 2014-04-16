@@ -118,6 +118,9 @@ cat /etc/services | awk '
 %{_mandir}/*
 
 %changelog
+* Wed Apr 16 2014 Jon Kent <jon.kent at, gmail.com> 1.10-3
+- spec file changes as per package review feedback - bugzilla 1084813
+
 * Sat Apr 12 2014 Jon Kent <jon.kent at, gmail.com> 1.10-2
 - added buildrequires for ncurses-devel, libtool, bison, flex and flex-devel
 
