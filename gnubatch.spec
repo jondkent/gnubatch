@@ -1,6 +1,6 @@
 Name: gnubatch
 Version: 1.10
-Release: 2%{?dist}
+Release: 3%{?dist}
 Summary: Gnubatch provides enhanced job control
 
 License: GPLv3
@@ -31,44 +31,34 @@ will have to be changed on one.
 %build
 %configure --sysconfdir=/etc/gnubatch --sharedstatedir=/var --localstatedir=/var --exec-prefix=/usr --prefix=/usr
 make
-%makeinstall
 
 %install
 rm -rf %{buildroot}
+
 mkdir -p  %{buildroot}%{_bindir}
 mkdir -p  %{buildroot}%{_libdir}
 mkdir -p %{buildroot}%{_mandir}/man8/
 mkdir -p %{buildroot}%{_mandir}/man3/
 mkdir -p %{buildroot}%{_mandir}/man1/
 mkdir -p %{buildroot}%{_mandir}/man5/
-mkdir -p %{buildroot}%{_unitdir}
+mkdir -p %{buildroot}/%{_unitdir}
 mkdir -p %{buildroot}%{_defaultdocdir}/%{name}
 mkdir -p %{buildroot}/usr/share/%{name}/help
-mkdir -p %{buildroot}%{_sysconfdir}
+mkdir -p %{buildroot}/etc/sysconfig
 mkdir -p %{buildroot}/var/gnubatch
 
-install -pm$(755) build/.libs/* %{buildroot}/%{_bindir}
-install -pm$(644) doc/poddoc/man/*.8 %{buildroot}/%{_mandir}/man8/
-install -pm$(644) doc/poddoc/man/*.3 %{buildroot}/%{_mandir}/man3/
-install -pm$(644) doc/poddoc/man/*.5 %{buildroot}/%{_mandir}/man5/
-install -pm$(644) doc/poddoc/man/*.1 %{buildroot}/%{_mandir}/man1/
+install -p build/.libs/* %{buildroot}/%{_bindir}
+install -p doc/poddoc/man/*.8 %{buildroot}/%{_mandir}/man8/
+install -p doc/poddoc/man/*.3 %{buildroot}/%{_mandir}/man3/
+install -p doc/poddoc/man/*.5 %{buildroot}/%{_mandir}/man5/
+install -p doc/poddoc/man/*.1 %{buildroot}/%{_mandir}/man1/
 install -rp build/lib/.libs/libgnu* %{buildroot}/%{_libdir}
-install -pm$(644) LICENSE %{buildroot}%{_defaultdocdir}/%{name}/
-install -pm$(644) README %{buildroot}%{_defaultdocdir}/%{name}/
-install -pm$(644) build/helpmsg/*help %{buildroot}/usr/share/%{name}/help
-install -pm$(644) build/helpmsg/btint-config %{buildroot}/usr/share/%{name}/help
-install -pm$(644) gnubatch.conf %{buildroot}%{_sysconfdir}
-install -pm$(644) lib/systemd/system/gnubatch.service %{buildroot}/%{_unitdir}
-
-%files
-%attr(755,root,root) %{_bindir}/*
-%attr(755,root,root) %{_libdir}/*
-%attr(644,root,root) %{_unitdir}/*
-%attr(755,root,root) /var/gnubatch
-%attr(644,root,root) /usr/share/%{name}/help/*
-%doc LICENSE README
-%config(noreplace) /etc/sysconfig/gnubatch.conf
-%{_mandir}/*
+install -p LICENSE %{buildroot}%{_defaultdocdir}/%{name}/
+install -p README %{buildroot}%{_defaultdocdir}/%{name}/
+install -p build/helpmsg/*help %{buildroot}/usr/share/%{name}/help
+install -p build/helpmsg/btint-config %{buildroot}/usr/share/%{name}/help
+install -p gnubatch.conf %{buildroot}/etc/sysconfig
+install -p lib/systemd/system/gnubatch.service %{buildroot}/%{_unitdir}
 
 %post
 
@@ -116,6 +106,16 @@ cat /etc/services | awk '
 }
 ' >> /etc/services
 
+
+%files
+%attr(755,root,root) %{_bindir}/*
+%attr(755,root,root) %{_libdir}/*
+%attr(644,root,root) %{_unitdir}/*
+%attr(755,root,root) /var/gnubatch
+%attr(644,root,root) /usr/share/%{name}/help/*
+%doc LICENSE README
+%config(noreplace) /etc/sysconfig/gnubatch.conf
+%{_mandir}/*
 
 %changelog
 * Sat Apr 12 2014 Jon Kent <jon.kent at, gmail.com> 1.10-2
