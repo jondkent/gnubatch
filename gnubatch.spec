@@ -1,14 +1,12 @@
 Name: gnubatch
 Version: 1.10
 Release: 2%{?dist}
-Summary: gnubatch provides enhanced job control
+Summary: Gnubatch provides enhanced job control
 
-Group: System Environment/Daemons
 License: GPLv3
 URL: http://www.gnu.org/software/gnubatch/
-Source0: http://ftp.gnu.org/gnu/gnubatch/gnubatch-1.10.tar.gz
+Source0: http://ftp.gnu.org/gnu/gnubatch/gnubatch-%{version}.tar.gz
 Source1: https://github.com/jondkent/gnubatch/blob/master/gnubatch-systemd.tar.gz
-BuildRoot: %(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
 
 BuildRequires: systemd ncurses-devel libtool bison flex flex-devel
 
@@ -31,8 +29,9 @@ will have to be changed on one.
 %setup -a 1
 
 %build
-./configure --sysconfdir=/etc/gnubatch --sharedstatedir=/var --localstatedir=/var --exec-prefix=/usr --prefix=/usr
+%configure --sysconfdir=/etc/gnubatch --sharedstatedir=/var --localstatedir=/var --exec-prefix=/usr --prefix=/usr
 make
+%makeinstall
 
 %install
 rm -rf %{buildroot}
@@ -42,37 +41,33 @@ mkdir -p %{buildroot}%{_mandir}/man8/
 mkdir -p %{buildroot}%{_mandir}/man3/
 mkdir -p %{buildroot}%{_mandir}/man1/
 mkdir -p %{buildroot}%{_mandir}/man5/
-mkdir -p %{buildroot}/%{_unitdir}
+mkdir -p %{buildroot}%{_unitdir}
 mkdir -p %{buildroot}%{_defaultdocdir}/%{name}
 mkdir -p %{buildroot}/usr/share/%{name}/help
-mkdir -p %{buildroot}/etc/sysconfig
+mkdir -p %{buildroot}%{_sysconfdir}
 mkdir -p %{buildroot}/var/gnubatch
 
-cp -p build/.libs/* %{buildroot}/%{_bindir}
-cp -p doc/poddoc/man/*.8 %{buildroot}/%{_mandir}/man8/
-cp -p doc/poddoc/man/*.3 %{buildroot}/%{_mandir}/man3/
-cp -p doc/poddoc/man/*.5 %{buildroot}/%{_mandir}/man5/
-cp -p doc/poddoc/man/*.1 %{buildroot}/%{_mandir}/man1/
-cp -rp build/lib/.libs/libgnu* %{buildroot}/%{_libdir}
-cp -p LICENSE %{buildroot}%{_defaultdocdir}/%{name}/
-cp -p README %{buildroot}%{_defaultdocdir}/%{name}/
-cp -p build/helpmsg/*help %{buildroot}/usr/share/%{name}/help
-cp -p build/helpmsg/btint-config %{buildroot}/usr/share/%{name}/help
-cp -p gnubatch.conf %{buildroot}/etc/sysconfig
-cp -p lib/systemd/system/gnubatch.service %{buildroot}/%{_unitdir}
-
-%clean
-rm -rf %{buildroot}
+install -pm$(755) build/.libs/* %{buildroot}/%{_bindir}
+install -pm$(644) doc/poddoc/man/*.8 %{buildroot}/%{_mandir}/man8/
+install -pm$(644) doc/poddoc/man/*.3 %{buildroot}/%{_mandir}/man3/
+install -pm$(644) doc/poddoc/man/*.5 %{buildroot}/%{_mandir}/man5/
+install -pm$(644) doc/poddoc/man/*.1 %{buildroot}/%{_mandir}/man1/
+install -rp build/lib/.libs/libgnu* %{buildroot}/%{_libdir}
+install -pm$(644) LICENSE %{buildroot}%{_defaultdocdir}/%{name}/
+install -pm$(644) README %{buildroot}%{_defaultdocdir}/%{name}/
+install -pm$(644) build/helpmsg/*help %{buildroot}/usr/share/%{name}/help
+install -pm$(644) build/helpmsg/btint-config %{buildroot}/usr/share/%{name}/help
+install -pm$(644) gnubatch.conf %{buildroot}%{_sysconfdir}
+install -pm$(644) lib/systemd/system/gnubatch.service %{buildroot}/%{_unitdir}
 
 %files
-%defattr(-,root,root,-)
-%attr(554,root,root) %{_bindir}/*
+%attr(755,root,root) %{_bindir}/*
 %attr(755,root,root) %{_libdir}/*
-%attr(664,root,root) %{_unitdir}/*
+%attr(644,root,root) %{_unitdir}/*
 %attr(755,root,root) /var/gnubatch
-%attr(666,root,root) /usr/share/%{name}/help/*
+%attr(644,root,root) /usr/share/%{name}/help/*
 %doc LICENSE README
-%config(noreplace) %attr(664,root,root) /etc/sysconfig/gnubatch.conf
+%config(noreplace) /etc/sysconfig/gnubatch.conf
 %{_mandir}/*
 
 %post
@@ -125,5 +120,7 @@ cat /etc/services | awk '
 %changelog
 * Sat Apr 12 2014 Jon Kent <jon.kent at, gmail.com> 1.10-2
 - added buildrequires for ncurses-devel, libtool, bison, flex and flex-devel
+
 * Fri Apr 04 2014 Jon Kent <jon.kent at, gmail.com> 1.10-1
 - initial fedora release
+
