@@ -6,7 +6,7 @@ Summary: Gnubatch provides enhanced job control
 License: GPLv3
 URL: http://www.gnu.org/software/gnubatch/
 Source0: http://ftp.gnu.org/gnu/gnubatch/gnubatch-%{version}.tar.gz
-Source1: https://github.com/jondkent/gnubatch/blob/master/gnubatch-systemd.tar.gz
+Source1: https://github.com/jondkent/gnubatch/blob/master/gnubatch.service
 
 BuildRequires: systemd ncurses-devel libtool bison flex flex-devel
 
@@ -26,7 +26,8 @@ will have to be changed on one.
 
 %prep
 
-%setup -a 1
+#%setup -a 1
+%setup -q
 
 %build
 %configure --sysconfdir=/etc/gnubatch --sharedstatedir=/var --localstatedir=/var --exec-prefix=/usr --prefix=/usr
@@ -42,23 +43,21 @@ mkdir -p %{buildroot}%{_mandir}/man3/
 mkdir -p %{buildroot}%{_mandir}/man1/
 mkdir -p %{buildroot}%{_mandir}/man5/
 mkdir -p %{buildroot}/%{_unitdir}
-mkdir -p %{buildroot}%doc
+mkdir -p %{buildroot}%{_defaultdocdir}/%{name}
 mkdir -p %{buildroot}%{_datadir}/%{name}/help
 mkdir -p %{buildroot}%{_sysconfdir}/sysconfig
 mkdir -p %{buildroot}/var/gnubatch
 
-install -p build/.libs/* %{buildroot}/%{_bindir}
-install -p doc/poddoc/man/*.8 %{buildroot}/%{_mandir}/man8/
-install -p doc/poddoc/man/*.3 %{buildroot}/%{_mandir}/man3/
-install -p doc/poddoc/man/*.5 %{buildroot}/%{_mandir}/man5/
-install -p doc/poddoc/man/*.1 %{buildroot}/%{_mandir}/man1/
-install -p build/lib/.libs/libgnu* %{buildroot}/%{_libdir}
-install -p LICENSE %doc
-install -p README %doc
-install -p build/helpmsg/*help %{buildroot}%{_datadir}/%{name}/help
-install -p build/helpmsg/btint-config %{buildroot}%{_datadir}/%{name}/help
-install -p gnubatch.conf %{buildroot}%{_sysconfdir}/sysconfig
-install -p lib/systemd/system/gnubatch.service %{buildroot}/%{_unitdir}
+install -m 755 build/.libs/* %{buildroot}/%{_bindir}
+install -m 644 doc/poddoc/man/*.8 %{buildroot}/%{_mandir}/man8/
+install -m 644 doc/poddoc/man/*.3 %{buildroot}/%{_mandir}/man3/
+install -m 644 doc/poddoc/man/*.5 %{buildroot}/%{_mandir}/man5/
+install -m 644 doc/poddoc/man/*.1 %{buildroot}/%{_mandir}/man1/
+install -m 755 build/lib/.libs/libgnu* %{buildroot}/%{_libdir}
+install -m 644 build/helpmsg/*help %{buildroot}%{_datadir}/%{name}/help
+install -m 644 build/helpmsg/btint-config %{buildroot}%{_datadir}/%{name}/help
+install -m 644 gnubatch.conf %{buildroot}%{_sysconfdir}/sysconfig
+install -m 644 %{SOURCE1} %{buildroot}%{_unitdir}
 
 %post
 
