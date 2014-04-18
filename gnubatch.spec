@@ -3,7 +3,7 @@ Version: 1.10
 Release: 4%{?dist}
 Summary: Distributed job scheduler with job dependancy support
 
-License: GPLv3
+License: GPLv3+
 URL: http://www.gnu.org/software/gnubatch/
 Source0: http://ftp.gnu.org/gnu/gnubatch/gnubatch-%{version}.tar.gz
 Source1: https://github.com/jondkent/gnubatch/blob/master/gnubatch.service
@@ -36,7 +36,6 @@ rm -rf %{buildroot}
 mkdir -p %{buildroot}%{_bindir}
 mkdir -p %{buildroot}%{_libdir}
 mkdir -p %{buildroot}%{_mandir}/man8/
-mkdir -p %{buildroot}%{_mandir}/man3/
 mkdir -p %{buildroot}%{_mandir}/man1/
 mkdir -p %{buildroot}%{_mandir}/man5/
 mkdir -p %{buildroot}/%{_unitdir}
@@ -47,7 +46,6 @@ mkdir -p %{buildroot}/var/gnubatch
 
 install -pm 755 build/.libs/* %{buildroot}/%{_bindir}
 install -pm 644 doc/poddoc/man/*.8 %{buildroot}/%{_mandir}/man8/
-install -pm 644 doc/poddoc/man/*.3 %{buildroot}/%{_mandir}/man3/
 install -pm 644 doc/poddoc/man/*.5 %{buildroot}/%{_mandir}/man5/
 install -pm 644 doc/poddoc/man/*.1 %{buildroot}/%{_mandir}/man1/
 install -pm 755 build/lib/.libs/libgnu* %{buildroot}/%{_libdir}
@@ -100,6 +98,7 @@ cat /etc/services | awk '
 }
 ' >> /etc/services
 
+/sbin/ldconfig
 %systemd_post gnubatch.service
 
 %preun
@@ -107,17 +106,23 @@ cat /etc/services | awk '
 
 %postun
 %systemd_postun_with_restart gnubatch.service
+/sbin/ldconfig
 
 
 %files
 %{_bindir}/*
 %{_libdir}/*
 %{_unitdir}/*
-/var/gnubatch
+%dir /var/gnubatch
+%dir %{_datadir}/%{name}
+%{_datadir}/%{name}/*
+%dir %{_datadir}/%{name}/help
 %{_datadir}/%{name}/help/*
 %doc LICENSE README
 %config(noreplace) /etc/sysconfig/gnubatch.conf
-%{_mandir}/*
+%{_mandir}/man1/*
+%{_mandir}/man5/*
+%{_mandir}/man8/*
 
 %changelog
 * Fri Apr 18 2014 Jon Kent <jon.kent at, gmail.com> 1.10-4
