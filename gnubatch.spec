@@ -35,8 +35,8 @@ make
 %install
 rm -rf %{buildroot}
 
-mkdir -p  %{buildroot}%{_bindir}
-mkdir -p  %{buildroot}%{_libdir}
+mkdir -p %{buildroot}%{_bindir}
+mkdir -p %{buildroot}%{_libdir}
 mkdir -p %{buildroot}%{_mandir}/man8/
 mkdir -p %{buildroot}%{_mandir}/man3/
 mkdir -p %{buildroot}%{_mandir}/man1/
@@ -105,6 +105,14 @@ cat /etc/services | awk '
 	if ( ! gnubatchapiudp ) { print "gnubatch-api           48107/udp        # API";}
 }
 ' >> /etc/services
+
+%systemd_post gnubatch.service
+
+%preun
+%systemd_preun gnubatch.service
+
+%postun
+%systemd_postun_with_restart gnubatch.service
 
 
 %files
