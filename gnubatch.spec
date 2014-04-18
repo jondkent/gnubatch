@@ -1,7 +1,7 @@
 Name: gnubatch
 Version: 1.10
-Release: 3%{?dist}
-Summary: Gnubatch provides enhanced job control
+Release: 4%{?dist}
+Summary: Distributed job scheduler with job dependancy support
 
 License: GPLv3
 URL: http://www.gnu.org/software/gnubatch/
@@ -11,26 +11,23 @@ Source1: https://github.com/jondkent/gnubatch/blob/master/gnubatch.service
 BuildRequires: systemd ncurses-devel libtool bison flex flex-devel
 
 %description
-gnubatch provides a comprehensive batch scheduling system
-for UNIX systems and GNU/Linux with transparently shared jobs and
-job control variables across the network.
+GNUbatch is a job scheduler to run under Unix and GNU/Linux operating systems. It executes jobs at specified dates and times or according to dependencies or interlocks defined by the user.
 
-The first version of the product was written in 1990 and it has been
-added to and refined ever since.
+Schedules of jobs may be run on just one processor, or shared across several processors on a network with network-wide dependencies. Access to jobs and other facilities may be restricted to one user or several users in a group as required.
 
-This has been edited so as to talk about GNUbatch rather than Xi-Batch
-and names suitably changed. It should be able to talk to other
-machines running Xi-Batch although the port numbers are different and
-will have to be changed on one.
+Jobs can be chained together, with optional paths based on errors, and these chains can be created to span multiple machines. For example, you could have a reporting task that runs on a collection of machines, which then causes a single job to run on another machine to aggregate the results into a report.
+
+The first version of the product was written in 1990 and it has been added to and refined ever since.  The initial version was Xi-Batch.
+
+GNUbatch is able to talk to other machines running Xi-Batch although the port numbers are different and will have to be changed on one.
 
 
 %prep
 
-#%setup -a 1
 %setup -q
 
 %build
-%configure --sysconfdir=/etc/gnubatch --sharedstatedir=/var --localstatedir=/var --exec-prefix=/usr --prefix=/usr
+%configure
 make
 
 %install
@@ -48,20 +45,18 @@ mkdir -p %{buildroot}%{_datadir}/%{name}/help
 mkdir -p %{buildroot}%{_sysconfdir}/sysconfig
 mkdir -p %{buildroot}/var/gnubatch
 
-install -m 755 build/.libs/* %{buildroot}/%{_bindir}
-install -m 644 doc/poddoc/man/*.8 %{buildroot}/%{_mandir}/man8/
-install -m 644 doc/poddoc/man/*.3 %{buildroot}/%{_mandir}/man3/
-install -m 644 doc/poddoc/man/*.5 %{buildroot}/%{_mandir}/man5/
-install -m 644 doc/poddoc/man/*.1 %{buildroot}/%{_mandir}/man1/
-install -m 755 build/lib/.libs/libgnu* %{buildroot}/%{_libdir}
-install -m 644 build/helpmsg/*help %{buildroot}%{_datadir}/%{name}/help
-install -m 644 build/helpmsg/btint-config %{buildroot}%{_datadir}/%{name}/help
-install -m 644 gnubatch.conf %{buildroot}%{_sysconfdir}/sysconfig
-install -m 644 %{SOURCE1} %{buildroot}%{_unitdir}
+install -pm 755 build/.libs/* %{buildroot}/%{_bindir}
+install -pm 644 doc/poddoc/man/*.8 %{buildroot}/%{_mandir}/man8/
+install -pm 644 doc/poddoc/man/*.3 %{buildroot}/%{_mandir}/man3/
+install -pm 644 doc/poddoc/man/*.5 %{buildroot}/%{_mandir}/man5/
+install -pm 644 doc/poddoc/man/*.1 %{buildroot}/%{_mandir}/man1/
+install -pm 755 build/lib/.libs/libgnu* %{buildroot}/%{_libdir}
+install -pm 644 build/helpmsg/*help %{buildroot}%{_datadir}/%{name}/help
+install -pm 644 build/helpmsg/btint-config %{buildroot}%{_datadir}/%{name}/help
+install -pm 644 gnubatch.conf %{buildroot}%{_sysconfdir}/sysconfig
+install -pm 644 %{SOURCE1} %{buildroot}%{_unitdir}
 
 %post
-
-echo "checking /etc/services setup for gnubatch"
 
 cat /etc/services | awk '
 
@@ -115,16 +110,19 @@ cat /etc/services | awk '
 
 
 %files
-%attr(755,root,root) %{_bindir}/*
-%attr(755,root,root) %{_libdir}/*
-%attr(644,root,root) %{_unitdir}/*
-%attr(755,root,root) /var/gnubatch
-%attr(644,root,root) /usr/share/%{name}/help/*
+%{_bindir}/*
+%{_libdir}/*
+%{_unitdir}/*
+/var/gnubatch
+%{_datadir}/%{name}/help/*
 %doc LICENSE README
 %config(noreplace) /etc/sysconfig/gnubatch.conf
 %{_mandir}/*
 
 %changelog
+* Fri Apr 18 2014 Jon Kent <jon.kent at, gmail.com> 1.10-4
+- additional spec file changes as per package review feedback - bugzilla 1084813
+
 * Wed Apr 16 2014 Jon Kent <jon.kent at, gmail.com> 1.10-3
 - spec file changes as per package review feedback - bugzilla 1084813
 
