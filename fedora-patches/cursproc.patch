@@ -1,0 +1,20 @@
+--- cursproc.c	2012-07-27 16:14:01.000000000 +0100
++++ cursproc.c.corrected	2014-04-21 19:27:13.931202776 +0100
+@@ -15,14 +15,14 @@
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+ 
+-#include "config.h"
++#include "../config.h"
+ #include <sys/types.h>
+ #include <curses.h>
+ #include <ctype.h>
+ #include <setjmp.h>
+ #include <pwd.h>
+-#include "defaults.h"
+-#include "incl_unix.h"
++#include "../src/hdrs/defaults.h"
++#include "../src/hdrs/incl_unix.h"
+ #include "networkincl.h"
+ #include "remote.h"
+ #include "hostedit.h"

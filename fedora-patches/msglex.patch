@@ -1,0 +1,13 @@
+--- msglex.l	2014-04-21 19:22:01.105951414 +0100
++++ msglex.l.corrected	2014-04-21 19:22:24.682155669 +0100
+@@ -16,8 +16,8 @@
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+ 
+-#include "config.h"
+-#include "incl_unix.h"
++#include "../config.h"
++#include "../src/hdrs/incl_unix.h"
+ #include "hdefs.h"
+ #include "y.tab.h"
+ 

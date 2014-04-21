@@ -1,0 +1,14 @@
+--- msgparse.y	2009-06-26 20:22:07.000000000 +0100
++++ msgparse.y.corrected	2014-04-21 19:13:06.305250738 +0100
+@@ -15,9 +15,9 @@
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+ %{
+-#include "config.h"
++#include "../config.h"
+ #include <stdio.h>
+-#include "incl_unix.h"
++#include "../src/hdrs/incl_unix.h"
+ #include "hdefs.h"
+ 
+ extern	int	yylex();

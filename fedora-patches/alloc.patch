@@ -1,0 +1,15 @@
+--- alloc.c	2009-06-26 20:22:07.000000000 +0100
++++ alloc.c.corrected	2014-04-21 19:10:01.931677181 +0100
+@@ -15,10 +15,10 @@
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+ 
+-#include "config.h"
++#include "../config.h"
+ #include <stdio.h>
+ #include <setjmp.h>
+-#include "incl_unix.h"
++#include "../src/hdrs/incl_unix.h"
+ #include "hdefs.h"
+ 
+ extern	int		errors, line_count;

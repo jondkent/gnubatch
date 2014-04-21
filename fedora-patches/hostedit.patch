@@ -1,0 +1,24 @@
+--- hostedit.c	2012-08-03 18:56:38.000000000 +0100
++++ hostedit.c.corrected	2014-04-21 19:28:23.961688768 +0100
+@@ -15,17 +15,17 @@
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+ 
+-#include "config.h"
++#include "../config.h"
+ #include <stdio.h>
+ #include <sys/types.h>
+ #include <fcntl.h>
+ #include <time.h>
+-#include "defaults.h"
+-#include "incl_unix.h"
++#include "../src/hdrs/defaults.h"
++#include "../src/hdrs/incl_unix.h"
+ #include "networkincl.h"
+ #include "remote.h"
+ #include "hostedit.h"
+-#include "src/hdrs/files.h"
++#include "../src/hdrs/files.h"
+ 
+ static	char	*gethostfile()
+ {
