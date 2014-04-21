@@ -1,6 +1,6 @@
 --- parsehtab.c	2012-07-27 16:00:45.000000000 +0100
-+++ parsehtab.c.corrected	2014-04-21 19:29:50.950296145 +0100
-@@ -15,7 +15,7 @@
++++ parsehtab.c.corrected	2014-04-21 20:00:18.714394042 +0100
+@@ -15,15 +15,15 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
  
@@ -9,9 +9,10 @@
  #include <stdio.h>
  #include <ctype.h>
  #include <sys/types.h>
-@@ -23,7 +23,7 @@
+ #include <pwd.h>
  #include <time.h>
- #include "defaults.h"
+-#include "defaults.h"
++#include "../src/hdrs/defaults.h"
  #include "networkincl.h"
 -#include "incl_unix.h"
 +#include "../src/hdrs/incl_unix.h"
