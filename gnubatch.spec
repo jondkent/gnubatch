@@ -1,6 +1,6 @@
 Name: gnubatch
 Version: 1.10
-Release: 4%{?dist}
+Release: 5%{?dist}
 Summary: Distributed job scheduler with job dependancy support
 
 License: GPLv3+
@@ -33,7 +33,6 @@ make RPM_OPT_FLAGS="%{optflags}"
 
 
 %install
-rm -rf %{buildroot}
 
 mkdir -p %{buildroot}%{_bindir}
 mkdir -p %{buildroot}%{_libdir}
@@ -127,6 +126,9 @@ cat /etc/services | awk '
 %{_mandir}/man8/*
 
 %changelog
+* Sat May 10 2014 Jon Kent <jon.kent at, gmail.com> 1.10-5
+- added sed post configure editing and modifed make statement (with thanks to Michael Schwendt) - bugzilla 1084813
+
 * Fri Apr 18 2014 Jon Kent <jon.kent at, gmail.com> 1.10-4
 - additional spec file changes as per package review feedback - bugzilla 1084813
 
