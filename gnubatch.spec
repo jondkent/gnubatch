@@ -28,7 +28,9 @@ GNUbatch is able to talk to other machines running Xi-Batch although the port nu
 
 %build
 %configure
-make %{?_smp_mflags} CFLAGS="%{optflags}" BINDIR=%{_bindir}
+sed -i 's!\(.*gcc_useful_options.*\)"$!\1 \${RPM_OPT_FLAGS}"!' config.status ; ./config.status
+make RPM_OPT_FLAGS="%{optflags}"
+
 
 %install
 rm -rf %{buildroot}
