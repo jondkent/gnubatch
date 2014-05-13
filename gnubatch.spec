@@ -1,6 +1,6 @@
 Name: gnubatch
 Version: 1.10
-Release: 5%{?dist}
+Release: 6%{?dist}
 Summary: Distributed job scheduler with job dependancy support
 
 License: GPLv3+
@@ -115,10 +115,7 @@ cat /etc/services | awk '
 %{_libdir}/*
 %{_unitdir}/*
 %dir /var/gnubatch
-%dir %{_datadir}/%{name}
-%{_datadir}/%{name}/*
-%dir %{_datadir}/%{name}/help
-%{_datadir}/%{name}/help/*
+%{_datadir}/%{name}/
 %doc LICENSE README
 %config(noreplace) /etc/sysconfig/gnubatch.conf
 %{_mandir}/man1/*
@@ -126,6 +123,9 @@ cat /etc/services | awk '
 %{_mandir}/man8/*
 
 %changelog
+* Tue May 13 2014 Jon Kent <jon.kent at, gmail.com> 1.10-6
+- tidy up of %files to remove redundant entries - bugzilla 1084813
+
 * Sat May 10 2014 Jon Kent <jon.kent at, gmail.com> 1.10-5
 - added sed post configure editing and modifed make statement (with thanks to Michael Schwendt) - bugzilla 1084813
 
