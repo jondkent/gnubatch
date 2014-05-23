@@ -37,17 +37,17 @@ mkdir -p %{buildroot}%{_libdir}
 mkdir -p %{buildroot}%{_mandir}/man8/
 mkdir -p %{buildroot}%{_mandir}/man1/
 mkdir -p %{buildroot}%{_mandir}/man5/
-mkdir -p %{buildroot}/%{_unitdir}
+mkdir -p %{buildroot}%{_unitdir}
 mkdir -p %{buildroot}%{_defaultdocdir}/%{name}
 mkdir -p %{buildroot}%{_datadir}/%{name}/help
 mkdir -p %{buildroot}%{_sysconfdir}/sysconfig
 mkdir -p %{buildroot}%{_localstatedir}/gnubatch
 
-install -pm 755 build/.libs/* %{buildroot}/%{_bindir}
-install -pm 644 doc/poddoc/man/*.8 %{buildroot}/%{_mandir}/man8/
-install -pm 644 doc/poddoc/man/*.5 %{buildroot}/%{_mandir}/man5/
-install -pm 644 doc/poddoc/man/*.1 %{buildroot}/%{_mandir}/man1/
-install -pm 755 build/lib/.libs/libgnu* %{buildroot}/%{_libdir}
+install -pm 755 build/.libs/* %{buildroot}%{_bindir}
+install -pm 644 doc/poddoc/man/*.8 %{buildroot}%{_mandir}/man8/
+install -pm 644 doc/poddoc/man/*.5 %{buildroot}%{_mandir}/man5/
+install -pm 644 doc/poddoc/man/*.1 %{buildroot}%{_mandir}/man1/
+install -pm 755 build/lib/.libs/libgnu* %{buildroot}%{_libdir}
 install -pm 644 build/helpmsg/*help %{buildroot}%{_datadir}/%{name}/help
 install -pm 644 build/helpmsg/btint-config %{buildroot}%{_datadir}/%{name}/help
 install -pm 644 gnubatch.conf %{buildroot}%{_sysconfdir}/sysconfig
