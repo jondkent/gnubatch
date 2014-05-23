@@ -1,6 +1,6 @@
 Name: gnubatch
 Version: 1.10
-Release: 6%{?dist}
+Release: 7%{?dist}
 Summary: Distributed job scheduler with job dependancy support
 
 License: GPLv3+
@@ -8,7 +8,10 @@ URL: http://www.gnu.org/software/gnubatch/
 Source0: http://ftp.gnu.org/gnu/gnubatch/gnubatch-%{version}.tar.gz
 Source1: https://github.com/jondkent/gnubatch/blob/master/gnubatch.service
 
-BuildRequires: systemd ncurses-devel libtool bison flex flex-devel
+BuildRequires: systemd ncurses-devel libtool bison flex-devel
+Requires(post): systemd
+Requires(preun): systemd
+Requires(postun): systemd
 
 %description
 GNUbatch is a job scheduler to run under Unix and GNU/Linux operating systems. It executes jobs at specified dates and times or according to dependencies or interlocks defined by the user.
@@ -16,11 +19,6 @@ GNUbatch is a job scheduler to run under Unix and GNU/Linux operating systems. I
 Schedules of jobs may be run on just one processor, or shared across several processors on a network with network-wide dependencies. Access to jobs and other facilities may be restricted to one user or several users in a group as required.
 
 Jobs can be chained together, with optional paths based on errors, and these chains can be created to span multiple machines. For example, you could have a reporting task that runs on a collection of machines, which then causes a single job to run on another machine to aggregate the results into a report.
-
-The first version of the product was written in 1990 and it has been added to and refined ever since.  The initial version was Xi-Batch.
-
-GNUbatch is able to talk to other machines running Xi-Batch although the port numbers are different and will have to be changed on one.
-
 
 %prep
 
@@ -43,7 +41,7 @@ mkdir -p %{buildroot}/%{_unitdir}
 mkdir -p %{buildroot}%{_defaultdocdir}/%{name}
 mkdir -p %{buildroot}%{_datadir}/%{name}/help
 mkdir -p %{buildroot}%{_sysconfdir}/sysconfig
-mkdir -p %{buildroot}/var/gnubatch
+mkdir -p %{buildroot}%{_localstatedir}/gnubatch
 
 install -pm 755 build/.libs/* %{buildroot}/%{_bindir}
 install -pm 644 doc/poddoc/man/*.8 %{buildroot}/%{_mandir}/man8/
@@ -57,7 +55,7 @@ install -pm 644 %{SOURCE1} %{buildroot}%{_unitdir}
 
 %post
 
-cat /etc/services | awk '
+cat %{_sysconfdir}/services | awk '
 
 	$1 ~ /gnubatch/ {\
 		if ( $2 == "48104/tcp" ) { print $1 $2; gnubatchtcp = 1; next; }
@@ -97,7 +95,7 @@ cat /etc/services | awk '
 	if ( ! gnubatchapitcp ) { print "gnubatch-api           48107/tcp        # API";}
 	if ( ! gnubatchapiudp ) { print "gnubatch-api           48107/udp        # API";}
 }
-' >> /etc/services
+' >> %{_sysconfdir}/services
 
 /sbin/ldconfig
 %systemd_post gnubatch.service
@@ -109,20 +107,23 @@ cat /etc/services | awk '
 %systemd_postun_with_restart gnubatch.service
 /sbin/ldconfig
 
-
 %files
 %{_bindir}/*
 %{_libdir}/*
 %{_unitdir}/*
-%dir /var/gnubatch
+%dir %{_localstatedir}/gnubatch
 %{_datadir}/%{name}/
 %doc LICENSE README
-%config(noreplace) /etc/sysconfig/gnubatch.conf
+%config(noreplace) %{_sysconfdir}/sysconfig/gnubatch.conf
 %{_mandir}/man1/*
 %{_mandir}/man5/*
 %{_mandir}/man8/*
 
 %changelog
+* Fri May 23 2014 Jon Kent <jon.kent at, gmail.com> 1.10-7
+- replace /var and /etc with relevant macro - bugzilla 1084813
+- added missing systemd post/preun/postun Requires - bugzilla 1084813
+
 * Tue May 13 2014 Jon Kent <jon.kent at, gmail.com> 1.10-6
 - tidy up of %files to remove redundant entries - bugzilla 1084813
 
